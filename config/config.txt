@@ -1,0 +1,6 @@
+Preamp: -12 dB
+# Include: config_fiioff1autoeq.txt
+Include: config_ff1toHE1byraw.txt
+# Include: config_NiceHCKvidotoHE1byraw.txt
+Include: simSpeaker.txt
+# VSTPlugin: Library "DSP.dll"
