@@ -37,7 +37,6 @@ This project reorganizes the core presets into `simSpeaker.txt` and adds AutoEQ 
 | config_ff1byraw.txt              | FiiO FF1 equalization using manual level flat + Harman target |
 | config_fiioff1autoeq.txt         | FiiO FF1 equalization using AutoEQ preset |
 | config_NiceHCKvido.txt           | NiceHCK Vido to Harman in-ear 2019 with bass |
-| config_NiceHCKvidotoHE1byraw.txt | NiceHCK Vido to Sennheiser HE1 equalization |
 | config_sea1000.txt               | Pioneer SEA1000 equalization configuration |
 | simSpeaker.txt                   | Main headphone-to-stereo speaker simulation |
 | simSpeaker-01_模拟音箱串扰.txt   | Speaker crosstalk simulation (Essential) |
