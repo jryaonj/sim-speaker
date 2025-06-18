@@ -1,97 +1,118 @@
-# integrated headphone-simulate-stereo-speakers
+# Headphone Stereo Speaker Simulation
 
-feteched from `xinleio/Headphones-simulate-stereo-speakers` virtual stereo settings and using 
-`jaakkopasanen/AutoEQ` headphone/earpods equalization project
+Fetched from `xinleio/Headphones-simulate-stereo-speakers` virtual stereo settings and using 
+`jaakkopasanen/AutoEq` headphone/earbuds equalization project
 
 * [Headphones-simulate-stereo-speakers](https://github.com/xinleio/Headphones-simulate-stereo-speakers)
 * [AutoEq](https://github.com/jaakkopasanen/AutoEq)
+* **Use [AutoEq.app](https://autoeq.app) for online results** (use with caution - see the [Recommended Process](#recommended-process) section below for the recommended approach)
 
-reorganization the core preset in `simSpeaker.txt` file and adding some very **budget** but still hearable (maybe, I don't sure for everyone)
-earbuds `AutoEQ` preset for best equalizing original sound
+This project reorganizes the core presets into `simSpeaker.txt` and adds AutoEQ configurations for various earbuds to improve their sound quality.
 
-## Prerequisite
+## Prerequisites
 
-**Device & Headphone**
-* any Windows PC
-* FiiO FF1 Earbuds  ~ $15
-* NiceHCK vido Earbuds (aka YUANDAO `p😭q`)   ~ 1$
+**Hardware:**
+- Any Windows PC
+- Supported earbuds/headphones:
+  - FiiO FF1 Earbuds (~$15)
+  - NiceHCK Vido Earbuds (aka YUANDAO WUJI `p😭q`) (~$1)
+  - 1MORE E1008 Earbuds (~$35)
+  - Pioneer SE-A1000 Headphone (~$35)
 
-**Software**
-* Equalizer APO [Homepage](https://equalizerapo.com/) [Sourceforge](https://sourceforge.net/projects/equalizerapo/)
+**Software:**
+- [Equalizer APO](https://equalizerapo.com/)
 
-## Step
+## Setup Instructions
 
-1. installation of Equalizer APO
+1. Install Equalizer APO
+2. Copy all files from the `config/` folder to `C:\Program Files\EqualizerAPO\config`
 
-2. copy all files inside `config/` folder into `C:\Program Files\EqualizerAPO\config`
+## Configuration Files
 
-3. [**with caution**] find / purchase `legel` reverb DSP plugin (maybe some `.dll` or other stuff) 
- added to the plugin folder `C:\Program Files\EqualizerAPO\VSTplugins` , please comply with law and regulation.
+| Filename                         | Description |
+|----------------------------------|-------------|
+| config_full.txt                  | Complete configuration including speaker simulation and equalization |
+| config.txt                       | Basic configuration without advanced features |
+| config_e1008.txt                 | 1More E1008 equalization configuration |
+| config_ff1byraw.txt              | FiiO FF1 equalization using manual level flat + Harman target |
+| config_fiioff1autoeq.txt         | FiiO FF1 equalization using AutoEQ preset |
+| config_NiceHCKvido.txt           | NiceHCK Vido to Harman in-ear 2019 with bass |
+| config_NiceHCKvidotoHE1byraw.txt | NiceHCK Vido to Sennheiser HE1 equalization |
+| config_sea1000.txt               | Pioneer SEA1000 equalization configuration |
+| simSpeaker.txt                   | Main headphone-to-stereo speaker simulation |
+| simSpeaker-01_模拟音箱串扰.txt   | Speaker crosstalk simulation (Essential) |
+| simSpeaker-02_模拟房间反射.txt   | Room reflection simulation (Optional - see notes below) |
 
-4. Setting any effective value like given below inside the reverb plugin
+**Important Notes on Room Reflection Effects:**
+- **Avoid `simSpeaker-02` for critical listening:** Room reflections typically degrade sound quality by adding unnatural reverberation. Acoustic research shows minimal reflections provide the cleanest reproduction.
+- **Manual Reverb Configuration (Optional - Not Recommended):**
+  Found any VST plugin which provides high-quality reverb processing on room simulation. For small room simulation (if desired), configure with these settings:
 
-* PreDelay	5ms ( sound speed 340 m/s * 5 ms = 1.7m)
-* Hold	10ms ( ~3.4m)
-* Release	60ms ( (60-5-10)ms ~= 15.3m  ~= x3 fold of a 20 m^2 area)
-* Diffuse	0%
-* LoCut	20Hz
-* HiCut	Off
+  | Parameter  | Value    | Physical Equivalent      | Rationale                           |
+  |------------|----------|--------------------------|-------------------------------------|
+  | PreDelay   | 5ms      | ~1.7m distance           | 340 m/s × 0.005s = 1.7m wave travel|
+  | Hold       | 10ms     | ~3.4m distance           | Corresponds to small room dimensions|
+  | Release    | 60ms     | ~15.3m distance          | Natural decay for small spaces     |
+  | Diffuse    | 0%       | N/A                      | Prevents muddying of direct sound  |
+  | LoCut      | 20Hz     | Sub-bass frequencies     | Removes unnecessary rumble         |
+  | HiCut      | Off      | Full high frequencies    | Preserves audio clarity            |
 
-## Configuration
+## Creating Custom Configurations
 
-listed below
+### Recommended Process
 
-|filename|description|
-|--------|-----------|
-|config.txt|EAPO main configuration file|
-|config_ff1toHE1byraw.txt| Fiio FF1 frequency reponse(FR) equalization file |
-|config_ff1autoeq.txt| Fiio FF1 frequency reponse(FR) equalization file |
-|config_NiceHCKvidotoHE1raw.txt| Fiio FF1 frequency reponse(FR) equalization file |
-|simSpeaker.txt| For Headphone-stereo speaker simulation |
-|simSpeaker-01_模拟音箱串扰.txt| first one |
-|simSpeaker-02_模拟房间反射.txt| second one |
+1. **Obtain frequency response data** for your headphones:
+   - Find measurements online (graphs or data). Ensure the data is gained by GRAS equipment/method measured, as only Harman response curve can be directly compensated (both use HTRF processes). For other measurement systems, you'll need to find a harman->target equipment transition function/compensation.
+   - Use [WebPlotDigitizer](https://automeris.io/wpd/) to extract data points from graphs
+   
+2. **Process the data**:
+   - Convert to CSV format
+   - Format for Equalizer APO using GraphicEQ syntax
+   - Example conversion (using GNU sed):
+     ```bash
+     sed 's/\n/; /g' input.csv | sed 's/,//g' > output.txt
+     ```
 
-## how these stuff comes from?
+3. **Create Equalizer APO configuration**:
+   - Create new configuration in Equalizer APO
+   - Add GraphicEQ filter with your headphone's inverted response
+   - Add second GraphicEQ filter with target frequency response (Harman curve)
+   - Adjust preamplification to prevent clipping
 
-** example - make an FiiO FF1 to Sennheiser HE 1 (FR) simulation **
+### Example Configurations
 
-all inside the `config_ff1toHE1byraw.txt` file, and same as `NiceHCK vido p😭q` ones
+- **FiiO FF1 to Harman In-Ear 2019** (`config_ff1byraw.txt`):
+  ```text
+  newFR = -original_FR + harman_target_FR
+  ```
 
+- **NiceHCK Vido to Harman In-Ear 2019** (`config_NiceHCKvido.txt`):
+  ```text
+  newFR = -vido_FR + harman_target_FR
+  ```
 
-**tl;dr** direct minus Frequency Response Curve of HE1 within FF1 earpod
+- **1more E1008 to Harman In-Ear 2019** (`config_e1008.txt`):
+  ```text
+  newFR = -e1008_FR + harman_target_FR
+  ```
 
-newFR = -origin FR + target FR
+- **Pioneer SE-A1000 to Sennheiser HE1 Orpheus ** (`config_sea1000.txt`):
+  ```text
+  newFR = -a1000_compensated_FR + innerf_target_FR + HE1_FR
+  ```
 
-below we using the smoothed metrics of FR, thus not suitable for daily use, 
-we could just simply use given sufficed `_graphicEQ` config in each device folder from `AutoEQ`.
+### Important Considerations
 
-### smooth curve, for demostration
-first, fetch the `smooth column` FR metrics of HE1 from `AutoEQ` project, which should sit in project `.csv` file
+- Use raw frequency response measurements when available
+- For pre-compensated data (e.g., InnerFidelity), apply appropriate compensation curves from `misc/`
+- Always verify results with listening tests
+- Target curves:
+  - `misc/Harman in-ear 2019.csv`
+  - `misc/Harman over-ear 2018.csv`
 
-next, use the same method to fetch the headphone/earpod metrics 
-
-(for `NiceHCK vido`, you need fetch FR metrics from legacy commit of the `AutoEQ` project, as recent one delete this for some reasons)
-
-available commit id is [commit:9e35da7b](https://github.com/jaakkopasanen/AutoEq/blob/9e35da7be52aa379f8931f005a79d37f6ebd0523/results/referenceaudioanalyzer/referenceaudioanalyzer_siec_harman_in-ear_2019v2/NiceHCK%20Vido)
-
-seperately save the `frequence:reponse` table in two file, format in `txt` or `csv`
-
-now open the `EqualizerAPO`, and create a new config. after that, adding a first `filter` `Graphics EQ` for equalization headphone,
-click the `import` icon in the right-(bottom-left) of the `G-EQ` panel, choose the `txt` of the headphone you `saved` from metrics 
-
-after that, remember to click the `invert reponse` icon, as we want to first hard-'equalize' headphone/earpod
-
-next, add the second `Graphics EQ` filter , this time is just the target `FR` metrics
-
-using a `Preamplification` filter and choose suitable `db` for calibrate gain level.
-
-then save the config to a seperate name, and include into the main `config`
-
-### graphicEQ simulation (current->target),
-
-first, create `G-EQ` for `AutoEQ-equalized` headphone/earpod
-click `edit text` icon left, then direct copy the text givin in headphone/earpod profile from `AutoEQ` project, such text ended with `_GraphicEQ.txt`
-
-
-next, create another `G-EQ` for `target response`. we simply choose Sennheiser HE1 `GraphicEQ.txt` to do so
-then don't forget click `invert reponse` icon to make FR equalization, to `setback` the `AutoEQ-equalized` effort(which is actually some version of `Harman Curve`) done on HE1, thus this combination would make our current device repond like `Sennheiser HE1`
+## Resources
+The `misc/` directory contains:
+- Raw frequency response data (`*.csv`)
+- Compensation curves
+- Reference images
+- Additional tools and resources
