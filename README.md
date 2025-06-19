@@ -97,8 +97,10 @@ This project reorganizes the core presets into `simSpeaker.txt` and adds AutoEQ 
 
 - **Pioneer SE-A1000 to Sennheiser HE1 Orpheus ** (`config_sea1000.txt`):
   ```text
-  newFR = -a1000_compensated_FR + innerf_target_FR + HE1_FR
+  newFR = -a1000_compensated_FR - innerf_target_FR + HE1_FR
   ```
+
+* For more information on InnerFidelity Test Target FR curve, please referring this site (https://www.stereophile.com/content/innerfidelity-headphone-measurements-explained)
 
 ### Important Considerations
 
