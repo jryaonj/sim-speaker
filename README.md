@@ -15,7 +15,8 @@ This project reorganizes the core presets into `simSpeaker.txt` and adds AutoEQ 
 - Any Windows PC
 - Supported earbuds/headphones:
   - FiiO FF1 Earbuds (~$15)
-  - NiceHCK Vido Earbuds (aka YUANDAO WUJI `p😭q`) (~$1)
+  - 2022 NiceHCK Vido Earbuds (aka YUANDAO WUJI `p😭q`) (~$1)
+  - 2025 NiceHCK YD30 Earbuds (aka YUANDAOJIANG) (~$1 )
   - 1MORE E1008 Earbuds (~$35)
   - Pioneer SE-A1000 Headphone (~$35)
 
@@ -37,10 +38,13 @@ This project reorganizes the core presets into `simSpeaker.txt` and adds AutoEQ 
 | config_ff1byraw.txt              | FiiO FF1 equalization using manual level flat + Harman target |
 | config_fiioff1autoeq.txt         | FiiO FF1 equalization using AutoEQ preset |
 | config_NiceHCKvido.txt           | NiceHCK Vido to Harman in-ear 2019 with bass |
+| config_NiceHCKyd30_manear.txt         | NiceHCK YD30 to ear-loudness equilization* |
 | config_sea1000.txt               | Pioneer SEA1000 equalization configuration |
 | simSpeaker.txt                   | Main headphone-to-stereo speaker simulation |
 | simSpeaker-01_模拟音箱串扰.txt   | Speaker crosstalk simulation (Essential) |
 | simSpeaker-02_模拟房间反射.txt   | Room reflection simulation (Optional - see notes below) |
+
+* for the lack of currect measurement or a wide product variants (quality control issues), such a config is done by adoption a mualti-frequency loudness equilization by ear, which may be not accurate to others.
 
 **Important Notes on Room Reflection Effects:**
 - **Avoid `simSpeaker-02` for critical listening:** Room reflections typically degrade sound quality by adding unnatural reverberation. Acoustic research shows minimal reflections provide the cleanest reproduction.
